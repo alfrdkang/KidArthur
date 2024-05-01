@@ -11,8 +11,9 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-
-    [SerializeField] float minViewDist = 25.0f;
+    /// <summary>
+    /// 
+    /// </summary>
     [SerializeField] Transform playerCapsule;
 
     public float mouseSens = 100.0f;
@@ -32,7 +33,7 @@ public class PlayerCamera : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * mouseSens * Time.deltaTime;
 
         xRotate -= mouseY;
-        xRotate = Mathf.Clamp(xRotate, -90f, minViewDist);
+        xRotate = Mathf.Clamp(xRotate, -90f, 80f);
 
         transform.localRotation = Quaternion.Euler(xRotate, 0f, 0f);
         playerCapsule.Rotate(Vector3.up * mouseX);
