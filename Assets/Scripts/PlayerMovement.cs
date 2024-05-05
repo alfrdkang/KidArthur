@@ -27,6 +27,10 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     Rigidbody rb;
 
+    /// <summary>
+    /// Player's Animator Component
+    /// </summary>
+    Animator playerAnimator;
 
     // Jump Variables
 
@@ -44,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        playerAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -58,6 +63,12 @@ public class PlayerMovement : MonoBehaviour
     void Run()
     {
         Vector3 playerVelo = new Vector3(moveInput.x * playerSpeed, rb.velocity.y, moveInput.y * playerSpeed);
+        Debug.Log(moveInput);
+        if (moveInput.x != 0 || moveInput.y != 0)
+        {
+            playerAnimator.Play("MoveFWD_Normal_InPlace_SwordAndShield");
+        }
+
         rb.velocity = transform.TransformDirection(playerVelo);
     }
 
@@ -78,7 +89,8 @@ public class PlayerMovement : MonoBehaviour
         if (jumpCount>0)
         {
             jumpCount--;
-
+            
+            playerAnimator.Play("JumpFull_Normal_RM_SwordAndShield",0,0.0f);
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
             ResetJump();
