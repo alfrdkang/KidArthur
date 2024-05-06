@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Collectible : MonoBehaviour
 {
-
-    int coinScore = 10;
-    public float speed = 500.0f;  
-    public Vector3 rotationAxis = Vector3.up; 
+    public float coinRotateSpeed = 250.0f;
+    public float keyRotateSpeed = 100.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -17,21 +15,23 @@ public class Collectible : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (gameObject.tag != "Player") {
-            if (collision.gameObject.tag == "Player")
-            {
-                collision.gameObject.GetComponent<PlayerScript>().IncreaseScore(coinScore);
-                Destroy(gameObject);
-            }
+        if (collision.gameObject.tag == "Player")
+        {
+            Destroy(gameObject);
         }
     }
 
     void Update()
     {
-        if (gameObject.tag != "Player")
+        if (gameObject.tag == "Coin")
         {
-            float angle = speed * Time.deltaTime;
-            transform.Rotate(rotationAxis, angle);
+            float Rotate = coinRotateSpeed * Time.deltaTime;
+            transform.Rotate(Rotate, 0, 0);
+        }
+        else if (gameObject.tag == "Key")
+        {
+            float Rotate = keyRotateSpeed * Time.deltaTime;
+            transform.Rotate(Rotate, Rotate, 0);
         }
     }
 }

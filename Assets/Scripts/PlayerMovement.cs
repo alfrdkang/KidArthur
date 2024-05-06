@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,6 +17,18 @@ public class PlayerMovement : MonoBehaviour
     /// Multiplies the speed of the player
     /// </summary>
     [SerializeField] float playerSpeed = 5f;
+
+    /// <summary>
+    /// Gets Coin Counter UI Text
+    /// </summary>
+    [SerializeField] TextMeshProUGUI coinText;
+
+    /// <summary>
+    /// Stores number of coins player collected
+    /// </summary>
+    int coinCollected = 0;
+
+    int totalCoins;
 
     /// <summary>
     /// User's movement input
@@ -49,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<Animator>();
+        totalCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
     }
 
     // Update is called once per frame
@@ -58,12 +72,28 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
+    /// Runs everytime player collides into something
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Coin")
+        {
+            coinCollected += 1;
+            if (coinCollected == totalCoins)
+            {
+                coinText.color = Color.yellow;
+            }
+            coinText.text = ("Coins: " + coinCollected.ToString() + "/" + totalCoins);
+        }
+    }
+
+    /// <summary>
     /// Fetches player input and move player model
     /// </summary>
     void Run()
     {
         Vector3 playerVelo = new Vector3(moveInput.x * playerSpeed, rb.velocity.y, moveInput.y * playerSpeed);
-        Debug.Log(moveInput);
         if (moveInput.x != 0 || moveInput.y != 0)
         {
             playerAnimator.Play("MoveFWD_Normal_InPlace_SwordAndShield");
