@@ -9,7 +9,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,18 +16,6 @@ public class PlayerMovement : MonoBehaviour
     /// Multiplies the speed of the player
     /// </summary>
     [SerializeField] float playerSpeed = 5f;
-
-    /// <summary>
-    /// Gets Coin Counter UI Text
-    /// </summary>
-    [SerializeField] TextMeshProUGUI coinText;
-
-    /// <summary>
-    /// Stores number of coins player collected
-    /// </summary>
-    int coinCollected = 0;
-
-    int totalCoins;
 
     /// <summary>
     /// User's movement input
@@ -62,30 +49,12 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<Animator>();
-        totalCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
     }
 
     // Update is called once per frame
     void Update()
     {
         Run();
-    }
-
-    /// <summary>
-    /// Runs everytime player collides into something
-    /// </summary>
-    /// <param name="collision"></param>
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Coin")
-        {
-            coinCollected += 1;
-            if (coinCollected == totalCoins)
-            {
-                coinText.color = Color.yellow;
-            }
-            coinText.text = ("Coins: " + coinCollected.ToString() + "/" + totalCoins);
-        }
     }
 
     /// <summary>

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Collectable : MonoBehaviour
 {
     public float coinRotateSpeed = 250.0f;
-    public float keyRotateSpeed = 100.0f;
 
     public void Interact()
     {
@@ -32,11 +31,6 @@ public class Collectable : MonoBehaviour
         {
             float Rotate = coinRotateSpeed * Time.deltaTime;
             transform.Rotate(Rotate, 0, 0);
-        }
-        else if (gameObject.tag == "Key")
-        {
-            float Rotate = keyRotateSpeed * Time.deltaTime;
-            transform.Rotate(Rotate, Rotate, 0);
         }
     }
 }
