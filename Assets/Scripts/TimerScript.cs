@@ -1,3 +1,10 @@
+/*
+ * Author: Alfred Kang Jing Rui
+ * Date Created: 6/05/2024
+ * Date Modified: 6/05/2024
+ * Description: Game Stopwatch Timer
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +12,14 @@ using TMPro;
 
 public class TimerScript : MonoBehaviour
 {
+    /// <summary>
+    /// Gets TMP Timer Text Display
+    /// </summary>
     [SerializeField] TextMeshProUGUI timerText;
+
+    /// <summary>
+    /// Stores amount of time after game start
+    /// </summary>
     float elapsedTime;
 
     // Start is called before the first frame update

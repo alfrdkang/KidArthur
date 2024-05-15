@@ -1,3 +1,10 @@
+/*
+ * Author: Alfred Kang Jing Rui
+ * Date Created: 16/05/2024
+ * Date Modified: 16/05/2024
+ * Description: Player Interactions
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -12,12 +12,18 @@ using UnityEngine;
 public class PlayerCamera : MonoBehaviour
 {
     /// <summary>
-    /// 
+    /// Fetches player model
     /// </summary>
     [SerializeField] Transform playerCapsule;
 
+    /// <summary>
+    /// Camera Mouse Sensitivity Multiplier
+    /// </summary>
     public float mouseSens = 100.0f;
 
+    /// <summary>
+    /// Rotates camera along X Axis
+    /// </summary>
     float xRotate = 0f;
 
     // Start is called before the first frame update

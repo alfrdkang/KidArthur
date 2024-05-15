@@ -1,3 +1,10 @@
+/*
+ * Author: Alfred Kang Jing Rui
+ * Date Created: 30/04/2024
+ * Date Modified: 16/05/2024
+ * Description: Main Player Code
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +22,9 @@ public class PlayerScript : MonoBehaviour
     /// </summary>
     int coinCollected = 0;
 
+    /// <summary>
+    /// Stores total number of coins in the game
+    /// </summary>
     int totalCoins;
 
     // Start is called before the first frame update
