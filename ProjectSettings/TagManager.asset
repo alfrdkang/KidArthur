@@ -8,8 +8,7 @@ TagManager:
   - Trigger
   - Coin
   - Ground
-  - Artifact
-  - Key
+  - Collectable
   layers:
   - Default
   - TransparentFX
