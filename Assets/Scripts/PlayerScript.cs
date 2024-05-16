@@ -27,11 +27,14 @@ public class PlayerScript : MonoBehaviour
     /// </summary>
     int totalCoins;
 
+    public bool strengthOrb;
+
     // Start is called before the first frame update
     void Start()
     {
         totalCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
-    }
+        strengthOrb = false;
+    }   
 
     // Update is called once per frame
     void Update()
@@ -53,6 +56,9 @@ public class PlayerScript : MonoBehaviour
                 coinText.color = Color.yellow;
             }
             coinText.text = ("Coins: " + coinCollected.ToString() + "/" + totalCoins);
+        } else if (collision.gameObject.tag == "Movable" && strengthOrb == false)
+        {
+            Debug.Log("You are not strong enough");
         }
     }
 }

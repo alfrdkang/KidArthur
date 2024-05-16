@@ -39,7 +39,7 @@ public class Interactor : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {   
         Ray ray = new Ray(InteractorSource.position, InteractorSource.forward);
         if (Physics.Raycast(ray, out RaycastHit hitInfo, InteractRange))
         {
@@ -58,6 +58,10 @@ public class Interactor : MonoBehaviour
                     else if (hitInfo.collider.gameObject.name == "StrengthOrb")
                     {
                         strengthOrb.sprite = strengthOrbTrue;
+                        GameObject[] movables = GameObject.FindGameObjectsWithTag("Movable");
+                        foreach (GameObject mvble in movables)
+                            mvble.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY;
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().strengthOrb = true;
                     }
                     else if (hitInfo.collider.gameObject.name == "UpdraftOrb")
                     {
