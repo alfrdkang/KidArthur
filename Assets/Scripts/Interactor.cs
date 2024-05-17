@@ -17,6 +17,8 @@ public class Interactor : MonoBehaviour
     public float InteractRange;
 
     public bool keyObtained;
+    public bool updraftOrbCollected;
+    public bool dashOrbCollected;
     public float rotateSpeed = 100.0f;
 
     public Image strengthOrb;
@@ -33,6 +35,8 @@ public class Interactor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        updraftOrbCollected = false;
+        dashOrbCollected = false;
         keyObtained = false;
         key.enabled = false;
     }
@@ -66,14 +70,17 @@ public class Interactor : MonoBehaviour
                     else if (hitInfo.collider.gameObject.name == "UpdraftOrb")
                     {
                         updraftOrb.sprite = updraftOrbTrue;
+                        updraftOrbCollected = true;
                     }
                     else if (hitInfo.collider.gameObject.name == "JumpOrb")
                     {
                         jumpOrb.sprite = jumpOrbTrue;
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().maxJumpCount = 2;
                     } 
                     else if (hitInfo.collider.gameObject.name == "DashOrb")
                     {
                         dashOrb.sprite = dashOrbTrue;
+                        dashOrbCollected = true;
                     }
                     collectObj.Interact();
                 }

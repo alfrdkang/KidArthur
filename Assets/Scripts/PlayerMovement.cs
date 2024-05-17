@@ -5,6 +5,7 @@
  * Description: Player Movement Script
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,14 +40,17 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public float jumpForce;
 
+    public float maxJumpCount = 1;
+
     /// <summary>
     /// Number of jumps player has available
     /// </summary>
-    public float jumpCount = 1;
+    public float jumpCount;
 
     // Start is called before the first frame update
     void Start()
     {
+        jumpCount = maxJumpCount;
         rb = GetComponent<Rigidbody>();
         playerAnimator = GetComponent<Animator>();
     }
@@ -55,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         Run();
+        Updraft();
+        Dash();
     }
 
     /// <summary>
@@ -92,6 +98,13 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.Play("JumpFull_Normal_RM_SwordAndShield",0,0.0f);
             rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
             ResetJump();
         }
     }
@@ -101,6 +114,33 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void ResetJump()
     {
-        jumpCount = 1;
+        Debug.Log("Reset!");
+        jumpCount = maxJumpCount;
+    }
+
+    void Updraft()
+    {
+        if (GameObject.Find("Main Camera").GetComponent<Interactor>().updraftOrbCollected == true)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                playerAnimator.Play("JumpFull_Normal_RM_SwordAndShield", 0, 0.0f);
+                rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+                rb.AddForce(transform.up * jumpForce * 5, ForceMode.Impulse);
+            }
+        }
+    }
+
+    void Dash()
+    {
+        if (GameObject.Find("Main Camera").GetComponent<Interactor>().dashOrbCollected == true)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                playerAnimator.Play("MoveFWD_Normal_InPlace_SwordAndShield");
+
+                rb.velocity = new Vector3(500, 0, 0);
+            }
+        }
     }
 }
