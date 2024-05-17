@@ -32,6 +32,8 @@ public class Interactor : MonoBehaviour
     public Sprite jumpOrbTrue;
     public Sprite dashOrbTrue;
 
+    public TextMeshProUGUI interactText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,8 @@ public class Interactor : MonoBehaviour
         dashOrbCollected = false;
         keyObtained = false;
         key.enabled = false;
+        interactText = GameObject.Find("interactText").GetComponent<TextMeshProUGUI>();
+        interactText.enabled = false;
     }
 
     // Update is called once per frame
@@ -49,8 +53,37 @@ public class Interactor : MonoBehaviour
         {
             if (hitInfo.collider.gameObject.TryGetComponent(out Collectable collectObj))
             {
-                float Rotate = rotateSpeed * Time.deltaTime;
-                hitInfo.collider.gameObject.transform.Rotate(Rotate, Rotate, 0);
+                if (hitInfo.collider.gameObject.tag != "Coin")
+                {
+                    float Rotate = rotateSpeed * Time.deltaTime;
+                    hitInfo.collider.gameObject.transform.Rotate(Rotate, Rotate, 0);
+                }
+
+                if (hitInfo.collider.gameObject.name == "Key")
+                {
+                    interactText.text = "Press [E] to Pickup Key";
+                    interactText.enabled = true;
+                }
+                else if (hitInfo.collider.gameObject.name == "StrengthOrb")
+                {
+                    interactText.text = "Press [E] to obtain STRENGTH";
+                    interactText.enabled = true;
+                }
+                else if (hitInfo.collider.gameObject.name == "UpdraftOrb")
+                {
+                    interactText.text = "Press [E] to obtain UPDRAFT";
+                    interactText.enabled = true;
+                }
+                else if (hitInfo.collider.gameObject.name == "JumpOrb")
+                {
+                    interactText.text = "Press [E] to obtain JUMP+";
+                    interactText.enabled = true;
+                }
+                else if (hitInfo.collider.gameObject.name == "DashOrb")
+                {
+                    interactText.text = "Press [E] to obtain DASH";
+                    interactText.enabled = true;
+                }
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
@@ -87,6 +120,22 @@ public class Interactor : MonoBehaviour
             }
             if (hitInfo.collider.gameObject.TryGetComponent(out DoorScript door))
             {
+                if (keyObtained)
+                {
+                    if (hitInfo.collider.gameObject.GetComponent<DoorScript>().doorOpened)
+                    {
+                        interactText.text = "Press [E] to Close Door";
+                        interactText.enabled = true;
+                    } else
+                    {
+                        interactText.text = "Press [E] to Open Door";
+                        interactText.enabled = true;
+                    }
+                } else
+                {
+                    interactText.text = "LOCKED";
+                    interactText.enabled = true;
+                }
                 if (Input.GetKeyDown(KeyCode.E) && keyObtained == true)
                 {
                     door.Interact();
@@ -95,6 +144,9 @@ public class Interactor : MonoBehaviour
                     Debug.Log("This door is locked.");
                 }
             }
+        } else
+        {
+            interactText.enabled = false;
         }
     }
 }

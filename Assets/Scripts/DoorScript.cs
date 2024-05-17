@@ -19,7 +19,7 @@ public class DoorScript : MonoBehaviour
     /// <summary>
     /// Tracks if locked door is open or closed
     /// </summary>
-    bool doorOpened;
+    public bool doorOpened;
 
     /// <summary>
     /// Player Interaction Function

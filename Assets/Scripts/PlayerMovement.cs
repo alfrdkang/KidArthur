@@ -8,6 +8,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce;
 
     public float maxJumpCount = 1;
+
+    public bool canUpdraft = true;
 
     /// <summary>
     /// Number of jumps player has available
@@ -106,6 +109,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.tag == "Ground")
         {
             ResetJump();
+            canUpdraft = true;
         }
     }
 
@@ -120,13 +124,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Updraft()
     {
-        if (GameObject.Find("Main Camera").GetComponent<Interactor>().updraftOrbCollected == true)
+        if (GameObject.Find("Main Camera").GetComponent<Interactor>().updraftOrbCollected == true && canUpdraft)
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
+                canUpdraft = false;
                 playerAnimator.Play("JumpFull_Normal_RM_SwordAndShield", 0, 0.0f);
                 rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-                rb.AddForce(transform.up * jumpForce * 5, ForceMode.Impulse);
+                rb.AddForce(transform.up * jumpForce * 3, ForceMode.Impulse);
             }
         }
     }
@@ -137,9 +142,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
+                Debug.Log("DASH");
                 playerAnimator.Play("MoveFWD_Normal_InPlace_SwordAndShield");
-
-                rb.velocity = new Vector3(500, 0, 0);
             }
         }
     }
