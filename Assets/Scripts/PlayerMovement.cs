@@ -129,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 canUpdraft = false;
-                playerAnimator.Play("JumpFull_Normal_RM_SwordAndShield", 0, 0.0f);
+                playerAnimator.Play("JumpFull_Spin_RM_SwordAndShield", 0, 0.0f);
                 rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
                 rb.AddForce(transform.up * jumpForce * 3, ForceMode.Impulse);
             }

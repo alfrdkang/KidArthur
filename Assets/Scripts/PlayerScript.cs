@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.ProBuilder;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -27,13 +28,15 @@ public class PlayerScript : MonoBehaviour
     /// </summary>
     int totalCoins;
 
-    public bool strengthOrb; 
+    public bool strengthOrb = false;
+
+    public TextMeshProUGUI interactText;
 
     // Start is called before the first frame update
     void Start()
     {
         totalCoins = GameObject.FindGameObjectsWithTag("Coin").Length;
-        strengthOrb = false;
+        interactText = GameObject.Find("interactText").GetComponent<TextMeshProUGUI>();
     }   
 
     // Update is called once per frame
@@ -58,7 +61,7 @@ public class PlayerScript : MonoBehaviour
             coinText.text = ("Coins: " + coinCollected.ToString() + "/" + totalCoins);
         } else if (collision.gameObject.tag == "Movable" && strengthOrb == false)
         {
-            Debug.Log("You are not strong enough");
+
         }
     }
 }

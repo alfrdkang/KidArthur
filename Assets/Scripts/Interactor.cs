@@ -16,9 +16,9 @@ public class Interactor : MonoBehaviour
     public Transform InteractorSource;
     public float InteractRange;
 
-    public bool keyObtained;
-    public bool updraftOrbCollected;
-    public bool dashOrbCollected;
+    public bool keyObtained = false;
+    public bool updraftOrbCollected = false;
+    public bool dashOrbCollected = false;
     public float rotateSpeed = 100.0f;
 
     public Image strengthOrb;
@@ -34,15 +34,18 @@ public class Interactor : MonoBehaviour
 
     public TextMeshProUGUI interactText;
 
+    /// <summary>
+    /// Player's Animator Component
+    /// </summary>
+    Animator playerAnimator;
+
     // Start is called before the first frame update
     void Start()
     {
-        updraftOrbCollected = false;
-        dashOrbCollected = false;
-        keyObtained = false;
         key.enabled = false;
         interactText = GameObject.Find("interactText").GetComponent<TextMeshProUGUI>();
         interactText.enabled = false;
+        playerAnimator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -91,29 +94,35 @@ public class Interactor : MonoBehaviour
                     {
                         keyObtained = true;
                         key.enabled = true;
+                        playerAnimator.Play("LevelUp_Battle_SwordAndShield");
                     } 
                     else if (hitInfo.collider.gameObject.name == "StrengthOrb")
                     {
                         strengthOrb.sprite = strengthOrbTrue;
                         GameObject[] movables = GameObject.FindGameObjectsWithTag("Movable");
                         foreach (GameObject mvble in movables)
-                            mvble.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY;
+                            mvble.GetComponent<Rigidbody>().mass = 12;
                         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>().strengthOrb = true;
+                        playerAnimator.Play("LevelUp_Battle_SwordAndShield");
                     }
                     else if (hitInfo.collider.gameObject.name == "UpdraftOrb")
                     {
                         updraftOrb.sprite = updraftOrbTrue;
                         updraftOrbCollected = true;
+                        playerAnimator.Play("LevelUp_Battle_SwordAndShield");
                     }
                     else if (hitInfo.collider.gameObject.name == "JumpOrb")
                     {
                         jumpOrb.sprite = jumpOrbTrue;
                         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().maxJumpCount = 2;
+                        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().jumpCount = 2;
+                        playerAnimator.Play("LevelUp_Battle_SwordAndShield");
                     } 
                     else if (hitInfo.collider.gameObject.name == "DashOrb")
                     {
                         dashOrb.sprite = dashOrbTrue;
                         dashOrbCollected = true;
+                        playerAnimator.Play("LevelUp_Battle_SwordAndShield");
                     }
                     collectObj.Interact();
                 }
