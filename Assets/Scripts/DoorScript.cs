@@ -28,11 +28,11 @@ public class DoorScript : MonoBehaviour
     {
         if (doorOpened == true)
         {
-            Door.Play("DoorCloseL", 0, 0.0f);
+            Door.Play("LockedDoorClose", 0, 0.0f);
             doorOpened = false;
         } else
         {
-            Door.Play("DoorOpenL", 0, 0.0f);
+            Door.Play("LockedDoorOpen", 0, 0.0f);
             doorOpened = true;
         }
     }

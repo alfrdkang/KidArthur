@@ -20,7 +20,7 @@ public class TimerScript : MonoBehaviour
     /// <summary>
     /// Stores amount of time after game start
     /// </summary>
-    float elapsedTime;
+    public float elapsedTime;
 
     // Start is called before the first frame update
     void Start()

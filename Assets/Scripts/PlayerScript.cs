@@ -21,12 +21,12 @@ public class PlayerScript : MonoBehaviour
     /// <summary>
     /// Stores number of coins player collected
     /// </summary>
-    int coinCollected = 0;
+    public int coinCollected = 0;
 
     /// <summary>
     /// Stores total number of coins in the game
     /// </summary>
-    int totalCoins;
+    public int totalCoins;
 
     public bool strengthOrb = false;
 
