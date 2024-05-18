@@ -118,7 +118,6 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void ResetJump()
     {
-        Debug.Log("Reset!");
         jumpCount = maxJumpCount;
     }
 
