@@ -22,6 +22,7 @@ public class DialogueManager : MonoBehaviour
     public Dialogue pickUpUpdraft;
     public Dialogue artifactsObtained;
     public Dialogue pickUpKey;
+    public Dialogue allCoins;
 
     public TextMeshProUGUI DiagText;
     public GameObject NPCDiagBG;

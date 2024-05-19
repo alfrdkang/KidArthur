@@ -50,6 +50,8 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public float jumpCount;
 
+    private bool dashing = false;
+
     [Header("Reference")]
     public Transform orientation;
     public Transform playerCam;
@@ -74,7 +76,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Run();
+        if (!dashing)
+        {
+            Run();
+        }
+
         Updraft();
         Dash();
     }
@@ -148,23 +154,49 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private Vector3 GetDirection(Transform forwardDirection)
+    {
+        Vector3 direction = (forwardDirection.forward * moveInput.y + forwardDirection.right * moveInput.x);
+        if (moveInput.x == 0 && moveInput.y == 0)
+        {
+            direction = forwardDirection.forward;
+        }
+        return direction.normalized;
+    }
+
     private void Dash()
     {
+        if (dashCDTimer > 0)
+        {
+            dashCDTimer -= Time.deltaTime;
+        }
         if (GameObject.Find("Main Camera").GetComponent<Interactor>().dashOrbCollected == true)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                Vector3 appliedForce = orientation.forward * dashForce * 200 + orientation.up * dashUpForce;
-                rb.AddForce(appliedForce, ForceMode.Impulse);
+                if (dashCDTimer > 0) return;
+                else dashCDTimer = dashCD;
+
+
+
+                dashing = true;
+                Vector3 appliedForce = GetDirection(playerCam) * dashForce + orientation.up * dashUpForce;
+                delayedAppliedForce = appliedForce;
+                Invoke(nameof(DelayedAppliedForce), 0.03f);
 
                 Invoke(nameof(ResetDash), dashDuration);
                 playerAnimator.Play("MoveFWD_Normal_InPlace_SwordAndShield");
             }
         }
     }
+    private Vector3 delayedAppliedForce;
+    private void DelayedAppliedForce()
+    {
+        rb.velocity = delayedAppliedForce;
+    }
 
     private void ResetDash()
     {
-       
+        dashing = false;
     }
 }
