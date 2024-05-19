@@ -35,13 +35,34 @@ public class Scenes : MonoBehaviour
     /// Max Time to complete game
     /// </summary>
     public int maxTime = 3600;
+
+    /// <summary>
+    /// Check if game ended
+    /// </summary>
+    private bool gameEnd;
+
     void Start()
     {
         VictoryBG = GameObject.Find("VictoryBG");
-        TimeTakenText = GameObject.Find("TimeTakenText").GetComponent<TextMeshProUGUI>();
-        CoinCollectedText = GameObject.Find("CoinCollectedText").GetComponent<TextMeshProUGUI>();
-        TotalScoreText = GameObject.Find("TotalScoreText").GetComponent<TextMeshProUGUI>();
-        VictoryBG.SetActive(false); 
+        try {
+            gameEnd = false;
+            TimeTakenText = GameObject.Find("TimeTakenText").GetComponent<TextMeshProUGUI>();
+            CoinCollectedText = GameObject.Find("CoinCollectedText").GetComponent<TextMeshProUGUI>();
+            TotalScoreText = GameObject.Find("TotalScoreText").GetComponent<TextMeshProUGUI>();
+            VictoryBG.SetActive(false);
+        } catch
+        {
+
+        }
+    }
+
+    private void Update()
+    {
+        if (gameEnd == true && Input.anyKeyDown) 
+        {
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        }
     }
     /// <summary>
     /// Function to swap scene to main and start game
@@ -56,7 +77,6 @@ public class Scenes : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
-        UnityEditor.EditorApplication.isPlaying = false;
         Application.Quit();
     }
 
@@ -68,12 +88,14 @@ public class Scenes : MonoBehaviour
     {
         if (collision.gameObject.name == "EndArea")
         {
+            gameEnd = true;
             VictoryBG.SetActive(true);
             TimeTakenText.text = "Time Taken: " + GameObject.Find("timerText").GetComponent<TextMeshProUGUI>().text;
             CoinCollectedText.text = "Coins Collected: " + GameObject.Find("MaleCharacterPBR").GetComponent<PlayerScript>().coinCollected;
-            if (GameObject.Find("Canvas").GetComponent<TimerScript>().elapsedTime >= maxTime)
-            {
-                TotalScoreText.text = (GameObject.Find("MaleCharacterPBR").GetComponent<PlayerScript>().coinCollected).ToString();
+            if (GameObject.Find("Canvas").GetComponent<TimerScript>().elapsedTime >= maxTime) {
+                TotalScoreText.text = "Total Score: " + (GameObject.Find("MaleCharacterPBR").GetComponent<PlayerScript>().coinCollected).ToString();
+            } else if (GameObject.Find("MaleCharacterPBR").GetComponent<PlayerScript>().coinCollected == 0){
+                TotalScoreText.text = "Total Score: " + Mathf.Round(maxTime - GameObject.Find("Canvas").GetComponent<TimerScript>().elapsedTime).ToString();
             } else
             {
                 TotalScoreText.text = "Total Score: " + (Mathf.Round(GameObject.Find("MaleCharacterPBR").GetComponent<PlayerScript>().coinCollected * (maxTime - GameObject.Find("Canvas").GetComponent<TimerScript>().elapsedTime)).ToString());

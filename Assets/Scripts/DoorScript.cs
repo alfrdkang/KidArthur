@@ -42,10 +42,4 @@ public class DoorScript : MonoBehaviour
     {
         doorOpened = false;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
