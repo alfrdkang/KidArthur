@@ -1,7 +1,7 @@
 /*
  * Author: Alfred Kang Jing Rui
  * Date Created: 30/04/2024
- * Date Modified: 30/04/2024
+ * Date Modified: 19/05/2024
  * Description: Player Movement Script
  */
 
@@ -41,8 +41,14 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public float jumpForce;
 
+    /// <summary>
+    /// Stores player's max jump count before retouching ground (1 or 2)
+    /// </summary>
     public float maxJumpCount = 1;
 
+    /// <summary>
+    /// Checks if player is able to updraft
+    /// </summary>
     public bool canUpdraft = true;
 
     /// <summary>
@@ -50,19 +56,41 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public float jumpCount;
 
+    /// <summary>
+    /// Checks if player is currently dashing
+    /// </summary>
     private bool dashing = false;
 
-    [Header("Reference")]
+
+    /// <summary>
+    /// Stores player model orientation
+    /// </summary>
     public Transform orientation;
+    /// <summary>
+    /// Stores PlayerCamera Transform Settings
+    /// </summary>
     public Transform playerCam;
 
-    [Header("Dashing Parameters")]
+    /// <summary>
+    /// Amount of Force on Player Dash
+    /// </summary>
     public float dashForce;
+    /// <summary>
+    /// Amount of Upward Force on Player Dash
+    /// </summary>
     public float dashUpForce;
+    /// <summary>
+    /// Dash Time Duration
+    /// </summary>
     public float dashDuration;
 
-    [Header("Cooldown")]
+    /// <summary>
+    /// Dash Cooldown
+    /// </summary>
     public float dashCD;
+    /// <summary>
+    /// Timer for Dash Cooldown
+    /// </summary>
     private float dashCDTimer;
 
     // Start is called before the first frame update
@@ -123,6 +151,10 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Checks if player is touching the ground
+    /// </summary>
+    /// <param name="collision"></param>
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Ground")
@@ -140,6 +172,9 @@ public class PlayerMovement : MonoBehaviour
         jumpCount = maxJumpCount;
     }
 
+    /// <summary>
+    /// Function to updraft player when [Q] Pressed
+    /// </summary>
     void Updraft()
     {
         if (GameObject.Find("Main Camera").GetComponent<Interactor>().updraftOrbCollected == true && canUpdraft)
@@ -154,6 +189,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function that takes in player model Orientation and Input to determine direction of Dash
+    /// </summary>
+    /// <param name="forwardDirection"></param>
+    /// <returns></returns>
     private Vector3 GetDirection(Transform forwardDirection)
     {
         Vector3 direction = (forwardDirection.forward * moveInput.y + forwardDirection.right * moveInput.x);
@@ -164,6 +204,9 @@ public class PlayerMovement : MonoBehaviour
         return direction.normalized;
     }
 
+    /// <summary>
+    /// Function to dash player when [L-Shift] Pressed
+    /// </summary>
     private void Dash()
     {
         if (dashCDTimer > 0)
@@ -189,12 +232,22 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Vector3 to store appliedForce Vector to delay it
+    /// </summary>
     private Vector3 delayedAppliedForce;
+    /// <summary>
+    /// Function to apply appliedForce Delayed
+    /// </summary>
     private void DelayedAppliedForce()
     {
         rb.velocity = delayedAppliedForce;
     }
 
+    /// <summary>
+    /// Function to reset dash after it ends
+    /// </summary>
     private void ResetDash()
     {
         dashing = false;

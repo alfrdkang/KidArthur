@@ -13,29 +13,86 @@ using TMPro;
 
 public class Interactor : MonoBehaviour
 {
+    /// <summary>
+    /// Raycast Source (Player)
+    /// </summary>
     public Transform InteractorSource;
+    /// <summary>
+    /// Raycast Interact Range
+    /// </summary>
     public float InteractRange;
 
+    /// <summary>
+    /// Checks if key is obtained
+    /// </summary>
     public bool keyObtained = false;
+    /// <summary>
+    /// Checks if updraft artifact orb is obtained
+    /// </summary>
     public bool updraftOrbCollected = false;
+    /// <summary>
+    /// Checks if dash artifact orb is obtained
+    /// </summary>
     public bool dashOrbCollected = false;
+    /// <summary>
+    /// Checks if strength artifact orb is obtained
+    /// </summary>
     public bool strengthOrbCollected = false;
+    /// <summary>
+    /// Checks if jump artifact orb is obtained
+    /// </summary>
     public bool jumpOrbCollected = false;
+    /// <summary>
+    /// Checks if dialogue after all artifacts are picked up has occured
+    /// </summary>
     public bool artifactsTotalDiag = false;
 
+    /// <summary>
+    /// Collectable Rotation Speed
+    /// </summary>
     public float rotateSpeed = 100.0f;
 
+    /// <summary>
+    /// Strength Orb UI Element
+    /// </summary>
     public Image strengthOrb;
+    /// <summary>
+    /// Updraft Orb UI Element
+    /// </summary>
     public Image updraftOrb;
+    /// <summary>
+    /// Jump Orb UI Element
+    /// </summary>
     public Image jumpOrb;
+    /// <summary>
+    /// Dash Orb UI Element
+    /// </summary>
     public Image dashOrb;
+    /// <summary>
+    /// Key UI Element
+    /// </summary>
     public Image key;
 
+    /// <summary>
+    /// Strength Orb Collect UI Sprite
+    /// </summary>
     public Sprite strengthOrbTrue;
+    /// <summary>
+    /// Updraft Orb Collect UI Sprite
+    /// </summary>
     public Sprite updraftOrbTrue;
+    /// <summary>
+    /// Jump Orb Collect UI Sprite
+    /// </summary>
     public Sprite jumpOrbTrue;
+    /// <summary>
+    /// Dash Orb Collect UI Sprite
+    /// </summary>
     public Sprite dashOrbTrue;
 
+    /// <summary>
+    /// Interact UI Text when Player Raycast Hits Interactable
+    /// </summary>
     public TextMeshProUGUI interactText;
 
     /// <summary>
@@ -193,6 +250,10 @@ public class Interactor : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Function to trigger and start dialogue
+    /// </summary>
+    /// <param name="Diag"></param>
     public void TriggerDialogue(Dialogue Diag)
     {
         FindObjectOfType<DialogueManager>().StartDialogue(Diag);
