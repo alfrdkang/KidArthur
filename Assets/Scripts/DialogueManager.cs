@@ -93,9 +93,13 @@ public class DialogueManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.GetMouseButtonDown(0) | Input.GetMouseButtonDown(1))
         {
             DisplayNextSentence();
+        }
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            EndDialogue();
         }
     }
 }

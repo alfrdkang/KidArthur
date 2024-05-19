@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     /// <summary>
     /// Player's Rigidbody Component
     /// </summary>
-    Rigidbody rb;
+    private Rigidbody rb;
 
     /// <summary>
     /// Player's Animator Component
@@ -50,8 +50,21 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     public float jumpCount;
 
+    [Header("Reference")]
+    public Transform orientation;
+    public Transform playerCam;
+
+    [Header("Dashing Parameters")]
+    public float dashForce;
+    public float dashUpForce;
+    public float dashDuration;
+
+    [Header("Cooldown")]
+    public float dashCD;
+    private float dashCDTimer;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         jumpCount = maxJumpCount;
         rb = GetComponent<Rigidbody>();
@@ -59,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         Run();
         Updraft();
@@ -135,15 +148,23 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    void Dash()
+    private void Dash()
     {
         if (GameObject.Find("Main Camera").GetComponent<Interactor>().dashOrbCollected == true)
         {
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                Debug.Log("DASH");
+                Vector3 appliedForce = orientation.forward * dashForce * 200 + orientation.up * dashUpForce;
+                rb.AddForce(appliedForce, ForceMode.Impulse);
+
+                Invoke(nameof(ResetDash), dashDuration);
                 playerAnimator.Play("MoveFWD_Normal_InPlace_SwordAndShield");
             }
         }
+    }
+
+    private void ResetDash()
+    {
+       
     }
 }
